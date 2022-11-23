@@ -1,31 +1,35 @@
+const { query } = require('express')
 const express=require('express')
 const router = express.Router()
 const News = require('../models/news_model')
+const mongoose = require('mongoose')
 
 //get all news coordinates
 router.get('/', async (req,res) => {
     try {
-        const news = await News.find()
+        //const news = await News.find({},'coordenates')
+        //JSON.stringify
+        const news = await mongoose.model('news').find().distinct('coordenates')
+        console.log(news.length)
         res.json(news)
       } catch (err) {
         res.status(500).json({ message: err.message })
       }
 })
-// Creating one
-router.post('/', async (req, res) => {
-    const news = new News({
-      name: req.body.name
-    })
-    try {
-      const newSubscriber = await news.save()
-      res.status(201).json(newSubscriber)
-    } catch (err) {
-      res.status(400).json({ message: err.message })
-    }
-  })
+
 //get all news at the coordinate lat and lon
-router.get('/:lat/:lon', (req,res) => {
-    res.send('getting all news as the coordinates lat:'+req.params.lat+' and lon:'+req.params.lon)
+router.get('/:lat/:lon', async (req,res) => {
+    try {
+      const news = await News.find({
+        coordenates:{
+          lat: req.params.lat ,
+          lon: req.params.lon
+        }
+      })
+      res.json(news)
+    } catch (err) {
+      res.status(500).json({ message: err.message })
+    }
 })
 
 module.exports = router
