@@ -56,8 +56,4 @@ def scrape(d):
     
 
 
-
-
-
-
 scrape(datetime.now() - timedelta(hours=24))

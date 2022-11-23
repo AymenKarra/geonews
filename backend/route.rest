@@ -1,0 +1,9 @@
+
+
+GET http://localhost:3000/news
+
+###
+POST http://localhost:3000/news
+Content-Type: application/json
+
+{   "title": "test",  "location": "test",  "url": "https://www.alchourouk.com/index.php",  "content": "test test",  "date": "2022-11-17 20:47:00",  "media": [    "https://www.alchourouk.com/sites/default/files/article/alqtyl.jpg"  ],  "coordenates": {    "lat": "35.8913691",    "lon": "8.5530477"  }}
