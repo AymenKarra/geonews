@@ -42,3 +42,21 @@ services:
     volumes:
       - ./data:/data/db
     restart: on-failure
+
+  backend:
+    build: ./backend
+    container_name: backend
+    restart: on-failure
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+  
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    restart: on-failure
+    ports:
+      - "3001:3001"
+    depends_on:
+      - backend

@@ -4,3 +4,6 @@ GET http://localhost:3000/news
 
 ###
 GET http://localhost:3000/news/35.8913691/8.5530477
+
+###
+GET http://localhost:3000/news/1/1
