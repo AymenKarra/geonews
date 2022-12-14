@@ -20,7 +20,6 @@ services:
 
   consumer:
     build: ./consumer
-    image: geonewsbackend.azurecr.io/consumer
     depends_on:
       - kafka
     container_name: consumer
@@ -31,8 +30,15 @@ services:
     depends_on:
       - kafka
     build: ./scrape
-    image: geonewsbackend.azurecr.io/producer
     container_name: producer
+    network_mode: "host" 
+    restart: on-failure
+  
+  producer2:
+    depends_on:
+      - kafka
+    build: ./scrape2
+    container_name: producer2
     network_mode: "host" 
     restart: on-failure
 
@@ -47,19 +53,18 @@ services:
 
   backend:
     build: ./backend
-    image: geonewsbackend.azurecr.io/backend
     container_name: backend
     restart: on-failure
     ports:
-      - "80:3000"
+      - "3000:3000"
     depends_on:
       - mongo
   
-  # frontend:
-  #   build: ./frontend
-  #   container_name: frontend
-  #   restart: on-failure
-  #   ports:
-  #     - "3001:3001"
-  #   depends_on:
-  #     - backend
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    restart: on-failure
+    ports:
+      - "3001:3001"
+    depends_on:
+      - backend 

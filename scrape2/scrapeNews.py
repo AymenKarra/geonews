@@ -3,17 +3,17 @@ from datetime import datetime, timedelta
 import requests
 import json
 import time
-#from kafka import KafkaProducer
+from kafka import KafkaProducer
 
 TOPIC="news"
 
-#producer = KafkaProducer(bootstrap_servers=['localhost:9092'])
+producer = KafkaProducer(bootstrap_servers=['localhost:9092'])
 
 def scrape(d):
     flag = True
     i=1
     while(flag==True):
-        url='https://www.mosaiquefm.net/ar/actualites/'+str(i)+'/2'
+        url='https://www.mosaiquefm.net/ar/actualites/2/'+str(i)+'/أخبار-تونس-جهات'
         page=requests.get(url)
         soup=BeautifulSoup(page.text,'lxml')
         elements = soup.findAll('div',class_ = 'col-xl-3 col-md-4 col-6 item')
@@ -22,7 +22,7 @@ def scrape(d):
             if(news_date < d):
                 flag = False
                 break
-            #send data to kafka
+
             data={}
             title=element.find('div',class_='desc').find('h3').find('a').contents[0]
             if(title.find(':')!=-1):
@@ -52,8 +52,8 @@ def scrape(d):
             data['date']=str(news_date)
             
             print(data)
-
-            
+            #send data to kafka
+            producer.send(TOPIC, json.dumps(data).encode('utf-8'))   
             
         i=i+1
 

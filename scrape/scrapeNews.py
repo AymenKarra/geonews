@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 import requests
 import json
+import time
 from kafka import KafkaProducer
 
 TOPIC="news"
@@ -29,7 +30,7 @@ def scrape(d):
             title=element.find('div',class_='views-field-title').find('a').contents[0]
             if(title.find(':')!=-1 or title.find("..")!=-1):
                 if(title.find(':')!=-1):
-                    data["title"]=title[title.find(':'):]
+                    data["title"]=title[title.find(':')+1:]
                     data["location"]=title[:title.find(':')]
                 else :
                     data[title]=title[title.rfind('.')+1:]
@@ -56,4 +57,9 @@ def scrape(d):
     
 
 
-scrape(datetime.now() - timedelta(hours=24))
+scrape(datetime.now() - timedelta(days=30))
+
+while True:
+    time.sleep(5*60)
+    scrape(datetime.now() - timedelta(seconds=5*60))
+

@@ -9,7 +9,10 @@ import shadow from '../../assets/marker-shadow.png';
 import { Icon } from 'leaflet'
 const myIcon = new Icon({
  iconUrl: image,
- shadowUrl: shadow
+ shadowUrl: shadow,
+ iconSize: [20, 35],
+ iconAnchor: [10, 35],
+ 
 });
 
 

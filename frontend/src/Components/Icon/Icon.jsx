@@ -3,7 +3,7 @@ import L from 'leaflet';
 const Icon = new L.Icon({
     iconUrl: require('https://unpkg.com/browse/leaflet@1.9.3/dist/images/marker-icon.png'),
     iconRetinaUrl: require('https://unpkg.com/browse/leaflet@1.9.3/dist/images/marker-shadow.png'),
-    iconAnchor: null,
+    iconAnchor: new L.Point(30, 0),
     popupAnchor: null,
     shadowUrl: null,
     shadowSize: null,

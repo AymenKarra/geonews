@@ -17,7 +17,7 @@ while 1 :
         print("message received")
         news=json.loads(msg.value.decode('utf-8'))
         if(news["location"]!=""):
-            location=requests.get(map_url.replace("<input>",news["location"].replace(" ","+"))).json()
+            location=requests.get(map_url.replace("<input>",news["location"].replace(" ","+")+"+تونس")).json()
             if(len(location)>0):
                 news["coordenates"]={"lat":location[0]["lat"],"lon":location[0]["lon"]}
         print(news)
